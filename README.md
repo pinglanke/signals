@@ -1,7 +1,10 @@
 # signals
 C++ signal/slot
 
+
 使用:
+
+
 1.定义signal:  
     plk::signal<R(PARAMT1, PARAMT2, ...)> mysignal;
 
