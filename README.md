@@ -12,4 +12,5 @@ C++ signal/slot
     auto conn = mysignal.attach(my_slot_function_or_object); 
     (若不用注销，则不必保存返回的conn.)
 
-4.注销slot:  conn.detach();
+4.注销slot:  
+    conn.detach();
