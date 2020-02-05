@@ -1,3 +1,4 @@
+//g++ -std=c++11 test.cpp -o test -pthread
 #include "signal.hpp"
 #include <chrono>
 #include <thread>
@@ -6,17 +7,17 @@ void do_nothing() {}
 
 void hello_world_1(int id, const char* tag)
 {
-	std::cout << "[" << id << "]" << " hellow world 1: [" << tag << "] good luck." << std::endl;
+	std::cerr << "[" << id << "]" << " hellow world 1: [" << tag << "] good luck." << std::endl;
 }
 
 void hello_world_2(int id, const char* tag)
 {
-	std::cout << "[" << id << "]" << " hellow world 2: [" << tag << "] good luck." << std::endl;
+	std::cerr << "[" << id << "]" << " hellow world 2: [" << tag << "] good luck." << std::endl;
 }
 
 void hello_world_3(int id, const char* tag)
 {
-	std::cout << "[" << id << "]" << " hellow world 3: [" << tag << "] good luck." << std::endl;
+	std::cerr << "[" << id << "]" << " hellow world 3: [" << tag << "] good luck." << std::endl;
 }
 
 std::atomic_bool exit_flag1 {false};
@@ -34,8 +35,10 @@ int main()
 	std::thread t2 ([&mysignal] {
 		while(!exit_flag2) {
 			auto conn = mysignal.attach(hello_world_3);
+			std::cerr << "hellow_world_3 attached." << std::endl;
 			std::this_thread::sleep_for(std::chrono::seconds(2));
 			conn.detach();
+			std::cerr << "hellow_world_3 detached." << std::endl;
 			std::this_thread::sleep_for(std::chrono::seconds(1));
 		}
 	});
@@ -44,6 +47,7 @@ int main()
 	auto conn = mysignal.attach(hello_world_2);
 	mysignal(0, "plk");
 	conn.detach();
+	std::cerr << "hellow_world_2 detached." << std::endl;
 	mysignal(0, "plk");
 
 	std::this_thread::sleep_for(std::chrono::seconds(30));
